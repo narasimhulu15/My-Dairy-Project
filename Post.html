@@ -8,17 +8,43 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   </head>
   <body class="d-flex justify-content-center align-items-center" style="height: 100vh;">
-   <form action="" style="width: 500px;" class="m-auto formDiv" >
+   <form action="" style="width: 500px;" class="m-auto formDiv" id="postForm">
     <div class="mb-3">
-  <label for="postTitile" class="form-label">Post Titile</label>
-  <input type="text" class="form-control" id="postTitile" placeholder="Titile here">
+  <label for="postTitle" class="form-label">Post Title</label>
+  <input type="text" name="postTitle" class="form-control" id="postTitle" placeholder="Title here">
 </div>
 <div class="mb-3">
-  <label for="dayDiscription" class="form-label">Describe your day </label>
-  <textarea class="form-control" id="dayDiscription" rows="3"></textarea>
+  <label for="dayDescription" class="form-label">Describe your day </label>
+  <textarea class="form-control" name="postDescription" id="dayDescription" rows="3"></textarea>
 </div>
-<button type="button" class="btn w-100" id="postButton" >Post my day</button>
+<button type="submit" class="btn btn-primary w-100" id="postButton">Post my day</button>
    </form>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+ <script>
+const form = document.getElementById('postForm');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+
+  const formData = new URLSearchParams(new FormData(form));
+  const response = await fetch('http://localhost:3000/newPost', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: formData
+  });
+  console.log(response)
+  const text = await response.text();
+  // alert(text);
+
+  if(response.status==200){
+  window.location.href='./FeedPage.html';
+  }
+  else{
+    alert("Some thing went wrong, try again");
+  } 
+});
+</script>
+ 
   </body>
 </html>
